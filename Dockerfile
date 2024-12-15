@@ -1,8 +1,11 @@
 # Base image with OpenJDK 17
 FROM openjdk:17-jdk-slim
 
-# Argument for application version
+# Add ARG for application version
 ARG APP_VERSION=0.0.1
+
+# Ensure ARG is available in RUN commands
+ENV APP_VERSION=${APP_VERSION}
 
 # Set the working directory
 WORKDIR /app
