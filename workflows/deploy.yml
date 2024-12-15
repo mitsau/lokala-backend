@@ -1,0 +1,49 @@
+name: Build and Deploy Ktor Server
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to main branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # 2. Set up Java
+      - name: Set up Java 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # 3. Build with Gradle
+      - name: Build Ktor Project
+        run: |
+          chmod +x ./gradlew
+          ./gradlew clean build
+
+      # 4. Upload JAR to VPS
+      - name: Deploy JAR to VPS
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "./build/libs/*.jar"
+          target: "/opt/ktor-app/"
+
+      # 5. Restart Ktor Server
+      - name: Restart Ktor Server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            pkill -f "java -jar" || true
+            nohup java -jar /opt/ktor-app/*.jar > /opt/ktor-app/output.log 2>&1 &
