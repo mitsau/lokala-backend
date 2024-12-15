@@ -15,7 +15,8 @@ RUN ./gradlew clean build -x test
 
 # Copy the built JAR file into the container
 RUN mkdir -p /app/build
-RUN cp build/libs/*-${APP_VERSION}.jar /app/build/app.jar
+# Copy the built JAR file into the container
+RUN cp build/libs/ktor-app-${APP_VERSION}.jar /app/build/app.jar
 
 # Set the default command to run the JAR
 CMD ["java", "-jar", "/app/build/app.jar"]
