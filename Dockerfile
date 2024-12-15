@@ -2,7 +2,7 @@
 FROM openjdk:17-jdk-slim
 
 # Argument for application version
-ARG APP_VERSION=1.0.0
+ARG APP_VERSION=0.0.1
 
 # Set the working directory
 WORKDIR /app
