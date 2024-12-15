@@ -28,10 +28,11 @@ dependencies {
 
 // Custom jar task to rename the output file
 tasks.jar {
-    archiveBaseName.set("ktor-app")  // Base name for the JAR file
-    archiveVersion.set(project.version)  // Use the project version for the JAR file
-    archiveFileName.set("${archiveBaseName.get()}-${archiveVersion.get()}.jar")  // Full name
+    // Set a string value for the archiveVersion
+    archiveBaseName.set("ktor-app")
+    archiveVersion.set(version.toString())  // Convert project.version to String explicitly
+    archiveFileName.set("${archiveBaseName.get()}-${archiveVersion.get()}.jar")
     manifest {
-        attributes["Main-Class"] = application.mainClass.get()  // Add the main class to the manifest
+        attributes["Main-Class"] = application.mainClass.get()
     }
 }
