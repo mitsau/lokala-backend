@@ -24,6 +24,15 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Debug SSH Private Key
+        run: |
+          echo "Private key preview:"
+          head -n 3 ~/.ssh/id_rsa
+          echo "...truncated..."
+          tail -n 3 ~/.ssh/id_rsa
+          echo "Key permissions:"
+          ls -lah ~/.ssh/id_rsa
+
       # Step 2: Debug SSH Key Permissions and Content
       - name: Debug SSH Key and Permissions
         run: |
