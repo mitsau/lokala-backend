@@ -1,0 +1,24 @@
+name: Upload Fat JAR
+
+on:
+  workflow_run:
+    workflows: ["Build Fat JAR"]
+    types:
+      - completed
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Fat JAR
+        uses: actions/download-artifact@v4
+        with:
+          name: fat-jar
+      - name: Upload to VPS
+        env:
+          SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          scp -o StrictHostKeyChecking=no fat-jar.jar user@your-vps-ip:/path/to/target/directory/
