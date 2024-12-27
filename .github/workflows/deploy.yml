@@ -22,7 +22,7 @@ jobs:
       - name: Build Docker Image
         env:
           IMAGE_NAME: ktor-app
-          IMAGE_TAG: 1.0.0
+          IMAGE_TAG: 0.0.1
         run: |
           docker build --build-arg APP_VERSION=${IMAGE_TAG} -t ${IMAGE_NAME}:${IMAGE_TAG} .
           docker save -o ${IMAGE_NAME}-${IMAGE_TAG}.tar ${IMAGE_NAME}:${IMAGE_TAG}
