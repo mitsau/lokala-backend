@@ -25,14 +25,3 @@ dependencies {
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.kotlin.test.junit)
 }
-
-// Custom jar task to rename the output file
-tasks.jar {
-    // Set a string value for the archiveVersion
-    archiveBaseName.set("ktor-app")
-    archiveVersion.set(version.toString())  // Convert project.version to String explicitly
-    archiveFileName.set("${archiveBaseName.get()}-${archiveVersion.get()}.jar")
-    manifest {
-        attributes["Main-Class"] = application.mainClass.get()
-    }
-}
