@@ -16,5 +16,5 @@ jobs:
       - name: Upload Fat JAR
         uses: actions/upload-artifact@v4
         with:
-          name: fat-jar.jar
-          path: build/libs/*
+          name: fat-jar
+          path: build/libs/*.jar
