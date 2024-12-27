@@ -1,10 +1,7 @@
 name: Upload Fat JAR
 
 on:
-  workflow_run:
-    workflows: ["Build Fat JAR"]
-    types:
-      - completed
+  workflow_call: {}
 
 jobs:
   upload:

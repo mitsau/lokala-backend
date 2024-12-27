@@ -1,0 +1,11 @@
+name: Main Workflow
+
+on: push
+
+jobs:
+  call-build:
+    uses: ./.github/workflows/build.yml
+
+  call-upload:
+    needs: call-build
+    uses: ./.github/workflows/upload.yml
