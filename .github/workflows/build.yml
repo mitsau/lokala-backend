@@ -12,3 +12,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - run: ./gradlew buildFatJar
+      - name: Upload Fat JAR
+        uses: actions/upload-artifact@v3
+        with:
+          name: fat-jar
+          path: build/libs/*.jar
