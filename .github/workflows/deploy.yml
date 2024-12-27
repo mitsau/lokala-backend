@@ -34,7 +34,7 @@ jobs:
           echo "$VPS_SSH_PRIVATE" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H -p 22 ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
-          scp -i ~/.ssh/id_rsa ktor-app-1.0.0.tar ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/tmp/ktor-app-1.0.0.tar
+          scp -i ~/.ssh/id_rsa ktor-app-0.0.1.tar ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/tmp/ktor-app-0.0.1.tar
         env:
           VPS_SSH_PRIVATE: ${{ secrets.VPS_SSH_PRIVATE }}
 
@@ -43,17 +43,17 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
             echo "Loading Docker image..."
-            docker load -i /tmp/ktor-app-1.0.0.tar
+            docker load -i /tmp/ktor-app-0.0.1.tar
 
             echo "Stopping existing container..."
             docker stop ktor-app-container || true
             docker rm ktor-app-container || true
 
             echo "Starting new container..."
-            docker run -d --name ktor-app-container -p 8080:8080 ktor-app:1.0.0
+            docker run -d --name ktor-app-container -p 8080:8080 ktor-app:0.0.1
 
             echo "Cleanup: Removing transferred image file"
-            rm /tmp/ktor-app-1.0.0.tar
+            rm /tmp/ktor-app-0.0.1.tar
           EOF
         env:
           VPS_SSH_PRIVATE: ${{ secrets.VPS_SSH_PRIVATE }}
